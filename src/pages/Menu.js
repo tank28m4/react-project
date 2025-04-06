@@ -128,7 +128,37 @@ function Menu() {
               textAlign: 'center',
               lineHeight: '1.6'
             }}>
-              Use our menu to place an order online, or <span style={{ color: '#35B8BE' }}>phone</span> our store 
+                           Use our menu to place an order online, or <span 
+                style={{ 
+                  color: '#35B8BE',
+                  position: 'relative',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  const tooltip = document.createElement('div');
+                  tooltip.className = 'phone-tooltip';
+                  tooltip.innerText = '+375 (77) 7-77-77';
+                  tooltip.style.position = 'absolute';
+                  tooltip.style.backgroundColor = '#35B8BE';
+                  tooltip.style.color = 'white';
+                  tooltip.style.padding = '5px 10px';
+                  tooltip.style.borderRadius = '4px';
+                  tooltip.style.fontSize = '14px';
+                  tooltip.style.bottom = '100%';
+                  tooltip.style.left = '50%';
+                  tooltip.style.transform = 'translateX(-50%)';
+                  tooltip.style.whiteSpace = 'nowrap';
+                  tooltip.style.zIndex = '1000';
+                  tooltip.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+                  e.currentTarget.appendChild(tooltip);
+                }}
+                onMouseLeave={(e) => {
+                  const tooltip = e.currentTarget.querySelector('.phone-tooltip');
+                  if (tooltip) {
+                    e.currentTarget.removeChild(tooltip);
+                  }
+                }}
+              >phone</span> our store 
               to place a pickup order. Fast and fresh food.
             </p>
             
