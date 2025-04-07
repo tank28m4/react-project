@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import { useCart } from '../contexts/CartContext';
+import PhoneTooltip from '../components/PhoneTooltip';
+import './Menu.css';
 
-import burgerDreams from '../assets/images/burger dreams.png';
-import burgerWaldo from '../assets/images/burger waldo.png';
-import burgerCali from '../assets/images/burger cali.png';
-import burgerBaconBuddy from '../assets/images/burger bacon buddy\'.png';
-import burgerSpicy from '../assets/images/burger spicy.png';
-import burgerClassic from '../assets/images/burger classic.png';
+import burgerDreams from '../assets/images/burger-dreams.png';
+import burgerWaldo from '../assets/images/burger-waldo.png';
+import burgerCali from '../assets/images/burger-cali.png';
+import burgerBaconBuddy from '../assets/images/burger-bacon-buddy.png';
+import burgerSpicy from '../assets/images/burger-spicy.png';
+import burgerClassic from '../assets/images/burger-classic.png';
 
 function Menu() {
   const { addToCart } = useCart();
@@ -43,16 +43,6 @@ function Menu() {
 
   React.useEffect(() => {
     document.title = "Menu";
-    const linkElement = document.createElement('link');
-    linkElement.rel = 'stylesheet';
-    linkElement.type = 'text/css';
-    linkElement.href = 'https://assets.website-files.com/5e865e09d8efa3310676b585/css/chomp.webflow.b84e4399e.css';
-    document.head.appendChild(linkElement);
-    
-    const fontLink = document.createElement('link');
-    fontLink.rel = 'stylesheet';
-    fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap';
-    document.head.appendChild(fontLink);
   }, []);
 
   const products = [
@@ -102,67 +92,18 @@ function Menu() {
 
   return (
     <>
-      <Header />
-      
-      <div className="header-section" style={{backgroundColor: '#f5f9fc', padding: '50px 0', clipPath: 'polygon(0.125rem 4.75rem, 100% 0%, 100% 100%, 0% 100%)'}}>
+      <div className="header-section">
         <div className="container-flex">
-          <div className="title-wrap-centre" style={{width: '100%', maxWidth: '700px', margin: '0 auto'}}>
-            <h1 
-              style={{
-                fontFamily: 'Inter, sans-serif',
-                color: '#35B8BE',
-                fontSize: '64px',
-                fontWeight: '400',
-                marginBottom: '20px',
-                textAlign: 'center',
-                lineHeight: '1.2'
-              }}
-            >
+          <div className="title-wrap-centre">
+            <h1 className="menu-title">
               Browse our menu
             </h1>
-            <p style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '16px', 
-              marginBottom: '30px', 
-              color: '#546285', 
-              textAlign: 'center',
-              lineHeight: '1.6'
-            }}>
-                           Use our menu to place an order online, or <span 
-                style={{ 
-                  color: '#35B8BE',
-                  position: 'relative',
-                  cursor: 'pointer'
-                }}
-                onMouseEnter={(e) => {
-                  const tooltip = document.createElement('div');
-                  tooltip.className = 'phone-tooltip';
-                  tooltip.innerText = '+375 (77) 7-77-77';
-                  tooltip.style.position = 'absolute';
-                  tooltip.style.backgroundColor = '#35B8BE';
-                  tooltip.style.color = 'white';
-                  tooltip.style.padding = '5px 10px';
-                  tooltip.style.borderRadius = '4px';
-                  tooltip.style.fontSize = '14px';
-                  tooltip.style.bottom = '100%';
-                  tooltip.style.left = '50%';
-                  tooltip.style.transform = 'translateX(-50%)';
-                  tooltip.style.whiteSpace = 'nowrap';
-                  tooltip.style.zIndex = '1000';
-                  tooltip.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-                  e.currentTarget.appendChild(tooltip);
-                }}
-                onMouseLeave={(e) => {
-                  const tooltip = e.currentTarget.querySelector('.phone-tooltip');
-                  if (tooltip) {
-                    e.currentTarget.removeChild(tooltip);
-                  }
-                }}
-              >phone</span> our store 
+            <p className="menu-description">
+              Use our menu to place an order online, or <PhoneTooltip phoneNumber="+375 (77) 7-77-77" /> our store 
               to place a pickup order. Fast and fresh food.
             </p>
             
-            <div className="tab-menu-round w-tab-menu" role="tablist" style={{display: 'flex', justifyContent: 'center', marginBottom: '40px'}}>
+            <div className="tab-menu-round w-tab-menu tab-menu-container" role="tablist">
               <a data-w-tab="Desert" className="tab-link-round w-inline-block w-tab-link w--current" id="w-tabs-0-data-w-tab-0" href="#" role="tab" aria-controls="w-tabs-0-data-w-pane-0" aria-selected="true">
                 <div>Desert</div>
               </a>
@@ -177,7 +118,7 @@ function Menu() {
         </div>
       </div>
       
-      <div className="content-section" style={{opacity: 1, backgroundColor: '#f5f9fc'}}>
+      <div className="content-section">
         <div className="container">
           <div data-duration-in="300" data-duration-out="100" data-current="Desert" data-easing="ease" className="w-tabs">
             <div className="w-tab-content">
@@ -231,8 +172,6 @@ function Menu() {
           </div>
         </div>
       </div>
-      
-      <Footer />
     </>
   );
 }
