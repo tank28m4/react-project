@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import PhoneTooltip from '../components/PhoneTooltip';
@@ -11,85 +11,88 @@ import burgerBaconBuddy from '../assets/images/burger-bacon-buddy.png';
 import burgerSpicy from '../assets/images/burger-spicy.png';
 import burgerClassic from '../assets/images/burger-classic.png';
 
-function Menu() {
+const Menu = () => {
   const { addToCart } = useCart();
-  const [quantities, setQuantities] = useState({
-    'burger-dreams': 1,
-    'burger-waldo': 1,
-    'burger-cali': 1,
-    'burger-bacon-buddy': 1,
-    'burger-spicy': 1,
-    'burger-classic': 1
-  });
-
-  const handleQuantityChange = (productId, value) => {
-    setQuantities(prev => ({
-      ...prev,
-      [productId]: parseInt(value, 10)
-    }));
-  };
-
-  const handleAddToCart = (e, product) => {
-    e.preventDefault();
-    const quantity = quantities[product.id];
-    
-    addToCart(product, quantity);
-    
-    setQuantities(prev => ({
-      ...prev,
-      [product.id]: 1
-    }));
-  };
-
-  React.useEffect(() => {
+  const [loading, setLoading] = useState(true);
+  const [meals, setMeals] = useState([]);
+  const [visibleMeals, setVisibleMeals] = useState([]);
+  const [quantities, setQuantities] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(6);
+  const [hasMore, setHasMore] = useState(true);
+  const [category, setCategory] = useState('Dessert');
+  
+  useEffect(() => {
     document.title = "Menu";
+    fetchMeals();
   }, []);
-
-  const products = [
-    {
-      id: 'burger-dreams',
-      name: 'Burger Dreams',
-      price: 9.20,
-      image: burgerDreams,
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
-    },
-    {
-      id: 'burger-waldo',
-      name: 'Burger Waldo',
-      price: 10.00,
-      image: burgerWaldo,
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
-    },
-    {
-      id: 'burger-cali',
-      name: 'Burger Cali',
-      price: 8.00,
-      image: burgerCali,
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
-    },
-    {
-      id: 'burger-bacon-buddy',
-      name: 'Burger Bacon Buddy',
-      price: 9.99,
-      image: burgerBaconBuddy,
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
-    },
-    {
-      id: 'burger-spicy',
-      name: 'Burger Spicy',
-      price: 9.20,
-      image: burgerSpicy,
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
-    },
-    {
-      id: 'burger-classic',
-      name: 'Burger Classic',
-      price: 8.00,
-      image: burgerClassic,
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+  
+  useEffect(() => {
+    if (meals.length > 0) {
+      const filteredMeals = meals.filter(meal => meal.category === category);
+      setVisibleMeals(filteredMeals.slice(0, currentPage * itemsPerPage));
+      setHasMore(filteredMeals.length > currentPage * itemsPerPage);
     }
-  ];
+  }, [category, meals, currentPage, itemsPerPage]);
+  
+  const fetchMeals = () => {
+    fetch('https://65de35f3dccfcd562f5691bb.mockapi.io/api/v1/meals')
+      .then(response => response.json())
+      .then(data => {
+        const newQuantities = {};
+        
+        data.forEach(meal => {
+          newQuantities[meal.id] = 1;
+        });
+        
+        setMeals(data);
+        const filteredMeals = data.filter(meal => meal.category === category);
+        setVisibleMeals(filteredMeals.slice(0, itemsPerPage));
+        setQuantities(newQuantities);
+        setLoading(false);
+        setHasMore(filteredMeals.length > itemsPerPage);
+      })
+      .catch(error => {
+        console.error('Error fetching meals:', error);
+        setLoading(false);
+      });
+  };
 
+  const loadMoreItems = (e) => {
+    e.preventDefault();
+    
+    setCurrentPage(prevPage => prevPage + 1);
+  };
+  
+  const handleQuantityChange = (mealId, value) => {
+    setQuantities(prevQuantities => ({
+      ...prevQuantities,
+      [mealId]: parseInt(value, 10)
+    }));
+  };
+  
+  const handleAddToCart = (e, meal) => {
+    e.preventDefault();
+    const quantity = quantities[meal.id];
+    
+    addToCart(meal, quantity);
+    
+    setQuantities(prevQuantities => ({
+      ...prevQuantities,
+      [meal.id]: 1
+    }));
+  };
+  
+  const handleCategoryClick = (e, newCategory) => {
+    e.preventDefault();
+    setCategory(newCategory);
+    setCurrentPage(1);
+  };
+  
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
+  
   return (
     <>
       <div className="header-section">
@@ -104,13 +107,42 @@ function Menu() {
             </p>
             
             <div className="tab-menu-round w-tab-menu tab-menu-container" role="tablist">
-              <a data-w-tab="Desert" className="tab-link-round w-inline-block w-tab-link w--current" id="w-tabs-0-data-w-tab-0" href="#" role="tab" aria-controls="w-tabs-0-data-w-pane-0" aria-selected="true">
-                <div>Desert</div>
+              <a 
+                data-w-tab="Dessert" 
+                onClick={(e) => handleCategoryClick(e, 'Dessert')} 
+                className={`tab-link-round w-inline-block w-tab-link ${category === 'Dessert' ? 'w--current' : ''}`} 
+                id="w-tabs-0-data-w-tab-0" 
+                href="#" 
+                role="tab" 
+                aria-controls="w-tabs-0-data-w-pane-0" 
+                aria-selected={category === 'Dessert'}
+              >
+                <div>Dessert</div>
               </a>
-              <a data-w-tab="Dinner" className="tab-link-round w-inline-block w-tab-link" tabIndex="-1" id="w-tabs-0-data-w-tab-1" href="#" role="tab" aria-controls="w-tabs-0-data-w-pane-1" aria-selected="false">
+              <a 
+                data-w-tab="Dinner" 
+                onClick={(e) => handleCategoryClick(e, 'Dinner')} 
+                className={`tab-link-round w-inline-block w-tab-link ${category === 'Dinner' ? 'w--current' : ''}`} 
+                tabIndex="-1" 
+                id="w-tabs-0-data-w-tab-1" 
+                href="#" 
+                role="tab" 
+                aria-controls="w-tabs-0-data-w-pane-1" 
+                aria-selected={category === 'Dinner'}
+              >
                 <div>Dinner</div>
               </a>
-              <a data-w-tab="Breakfast" className="tab-link-round w-inline-block w-tab-link" tabIndex="-1" id="w-tabs-0-data-w-tab-2" href="#" role="tab" aria-controls="w-tabs-0-data-w-pane-2" aria-selected="false">
+              <a 
+                data-w-tab="Breakfast" 
+                onClick={(e) => handleCategoryClick(e, 'Breakfast')} 
+                className={`tab-link-round w-inline-block w-tab-link ${category === 'Breakfast' ? 'w--current' : ''}`} 
+                tabIndex="-1" 
+                id="w-tabs-0-data-w-tab-2" 
+                href="#" 
+                role="tab" 
+                aria-controls="w-tabs-0-data-w-pane-2" 
+                aria-selected={category === 'Breakfast'}
+              >
                 <div>Breakfast</div>
               </a>
             </div>
@@ -120,34 +152,34 @@ function Menu() {
       
       <div className="content-section">
         <div className="container">
-          <div data-duration-in="300" data-duration-out="100" data-current="Desert" data-easing="ease" className="w-tabs">
+          <div data-duration-in="300" data-duration-out="100" data-current={category} data-easing="ease" className="w-tabs">
             <div className="w-tab-content">
-              <div data-w-tab="Desert" className="tab-pane-wrap w-tab-pane w--tab-active" id="w-tabs-0-data-w-pane-0" role="tabpanel" aria-labelledby="w-tabs-0-data-w-tab-0">
+              <div data-w-tab={category} className="tab-pane-wrap w-tab-pane w--tab-active" id={`w-tabs-0-data-w-pane-${category === 'Dessert' ? '0' : category === 'Dinner' ? '1' : '2'}`} role="tabpanel" aria-labelledby={`w-tabs-0-data-w-tab-${category === 'Dessert' ? '0' : category === 'Dinner' ? '1' : '2'}`}>
                 <div className="w-dyn-list">
                   <div role="list" className="order-collection w-dyn-items w-row">
                     
-                    {products.map((product) => (
-                      <div key={product.id} role="listitem" className="menu-item w-dyn-item w-col w-col-6">
+                    {visibleMeals.map((meal) => (
+                      <div key={meal.id} role="listitem" className="menu-item w-dyn-item w-col w-col-6">
                         <div className="food-card">
-                          <Link to={`/product/${product.id}`} className="food-image-square w-inline-block">
-                            <img alt={product.name} src={product.image} className="food-image" />
+                          <Link to={`/product/${meal.id}`} className="food-image-square w-inline-block">
+                            <img alt={meal.meal} src={meal.img} className="food-image" />
                           </Link>
                           <div className="food-card-content">
-                            <Link to={`/product/${product.id}`} className="food-title-wrap w-inline-block">
-                              <h6>{product.name}</h6>
-                              <div className="price">$&nbsp;{product.price.toFixed(2)}&nbsp;USD</div>
+                            <Link to={`/product/${meal.id}`} className="food-title-wrap w-inline-block">
+                              <h6>{meal.meal}</h6>
+                              <div className="price">$&nbsp;{meal.price.toFixed(2)}&nbsp;USD</div>
                             </Link>
-                            <p className="paragraph">{product.description}</p>
+                            <p className="paragraph">{meal.category} - {meal.area}</p>
                             <div className="add-to-cart">
-                              <form className="w-commerce-commerceaddtocartform default-state" onSubmit={(e) => handleAddToCart(e, product)}>
+                              <form className="w-commerce-commerceaddtocartform default-state" onSubmit={(e) => handleAddToCart(e, meal)}>
                                 <input 
                                   type="number" 
                                   pattern="^[0-9]+$" 
                                   inputMode="numeric" 
                                   min="1" 
                                   className="w-commerce-commerceaddtocartquantityinput quantity" 
-                                  value={quantities[product.id]} 
-                                  onChange={(e) => handleQuantityChange(product.id, e.target.value)}
+                                  value={quantities[meal.id]} 
+                                  onChange={(e) => handleQuantityChange(meal.id, e.target.value)}
                                 />
                                 <input type="submit" className="w-commerce-commerceaddtocartbutton order-button" value="Add to Cart" />
                               </form>
@@ -158,14 +190,16 @@ function Menu() {
                     ))}
                     
                   </div>
-                  <div role="navigation" aria-label="List" className="w-pagination-wrapper pagination">
-                    <a href="#" aria-label="Next Page" className="w-pagination-next pagination-button">
-                      <div className="w-inline-block">See more</div>
-                      <svg className="w-pagination-next-icon" height="12px" width="12px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" transform="translate(0, 1)">
-                        <path fill="none" stroke="currentColor" fillRule="evenodd" d="M4 2l4 4-4 4"></path>
-                      </svg>
-                    </a>
-                  </div>
+                  {hasMore && (
+                    <div role="navigation" aria-label="List" className="w-pagination-wrapper pagination">
+                      <a href="#" onClick={loadMoreItems} aria-label="Next Page" className="w-pagination-next pagination-button">
+                        <div className="w-inline-block">See more</div>
+                        <svg className="w-pagination-next-icon" height="12px" width="12px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" transform="translate(0, 1)">
+                          <path fill="none" stroke="currentColor" fillRule="evenodd" d="M4 2l4 4-4 4"></path>
+                        </svg>
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -174,6 +208,6 @@ function Menu() {
       </div>
     </>
   );
-}
+};
 
 export default Menu; 

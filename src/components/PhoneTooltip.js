@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 
-function PhoneTooltip({ phoneNumber }) {
+const PhoneTooltip = ({ phoneNumber }) => {
   const [showTooltip, setShowTooltip] = useState(false);
+  
+  const handleMouseEnter = () => {
+    setShowTooltip(true);
+  };
+  
+  const handleMouseLeave = () => {
+    setShowTooltip(false);
+  };
   
   return (
     <span 
       className="phone-link"
-      onMouseEnter={() => setShowTooltip(true)}
-      onMouseLeave={() => setShowTooltip(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       phone
       {showTooltip && (
@@ -17,6 +25,6 @@ function PhoneTooltip({ phoneNumber }) {
       )}
     </span>
   );
-}
+};
 
 export default PhoneTooltip; 

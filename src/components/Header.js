@@ -1,22 +1,20 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import cartIconSvg from '../assets/icons/cart-icon.svg';
 import logoSvg from '../assets/icons/logo.svg';
 
-const cartIconStyle = {
-  color: '#35B8BE',
-  width: '17px',
-  height: '17px'
-};
-
-function Header() {
+const Header = () => {
   const { cartCount } = useCart();
-  const navigate = useNavigate();
-
+  
   const handleCompanyClick = (e) => {
     e.preventDefault();
-    navigate('/');
+  };
+
+  const cartIconStyle = {
+    color: '#35B8BE',
+    width: '17px',
+    height: '17px'
   };
 
   return (
@@ -72,6 +70,6 @@ function Header() {
       </div>
     </>
   );
-}
+};
 
 export default Header; 

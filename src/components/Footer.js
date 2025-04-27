@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function Footer() {
+const Footer = () => {
   return (
     <div className="footer" style={{backgroundColor: '#f5f9fc'}}>
       <div className="container">
@@ -19,37 +19,37 @@ function Footer() {
           </div>
           <div id="w-node-_67f7db32-28d2-9f37-8b84-a159dcc6da69-dcc6da57" className="footer-column">
             <div className="title">TEMPLATE</div>
-            <Link to="/" className="footer-link">Style Guide</Link>
-            <Link to="/" className="footer-link">Changelog</Link>
-            <Link to="/" className="footer-link">Licence</Link>
-            <a href="https://university.webflow.com/" target="_blank" rel="noreferrer" className="footer-link">Webflow University</a>
+            <a href="https://www.google.com/" target="_blank" rel="noreferrer" className="footer-link">Style Guide</a>
+            <a href="https://www.google.com/" target="_blank" rel="noreferrer" className="footer-link">Changelog</a>
+            <a href="https://www.google.com/" target="_blank" rel="noreferrer" className="footer-link">Licence</a>
+            <a href="https://www.google.com/" target="_blank" rel="noreferrer" className="footer-link">Webflow University</a>
           </div>
           <div id="w-node-_67f7db32-28d2-9f37-8b84-a159dcc6da72-dcc6da57" className="footer-column">
             <div className="title">FLOWBASE </div>
-            <a href="http://www.flowbase.co" target="_blank" rel="noreferrer" className="footer-link">More Cloneables</a>
+            <Link to="/" className="footer-link">More Cloneables</Link>
           </div>
         </div>
         <div className="footer-legal">
           <div className="footer-detail-left">
-            <div className="legal">Built by <a href="http://www.flowbase.co" target="_blank" rel="noreferrer" className="webflow-link">Flowbase</a>  · Powered by <a href="http://webflow.com/" target="_blank" rel="noreferrer" className="webflow-link">Webflow</a></div>
+            <div className="legal">Built by <Link to="/" className="webflow-link">Flowbase</Link> · Powered by <Link to="/" className="webflow-link">Webflow</Link></div>
           </div>
           <div className="footer-detail-right">
             <div className="social-icon-wrap">
-              <a href="#" className="social-link w-inline-block">
+              <Link to="/" className="social-link w-inline-block">
                 <img src="https://cdn.prod.website-files.com/5e360a99f4dd53fd793925af/5e362b9c121267b0fabbef18_social-instagram.svg" alt="" className="social-icon"/>
-              </a>
-              <a href="#" className="social-link w-inline-block">
+              </Link>
+              <Link to="/" className="social-link w-inline-block">
                 <img src="https://cdn.prod.website-files.com/5e360a99f4dd53fd793925af/5e362b9cf4dd53d8073a05cd_social-twitter.svg" alt="" className="social-icon"/>
-              </a>
-              <a href="#" className="social-link w-inline-block">
+              </Link>
+              <Link to="/" className="social-link w-inline-block">
                 <img src="https://cdn.prod.website-files.com/5e360a99f4dd53fd793925af/5e362b9c7c077b1740e27d28_social-youtube.svg" alt="" className="social-icon"/>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Footer; 

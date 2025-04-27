@@ -15,7 +15,7 @@ const Login = lazy(() => import('./pages/Login').catch(() => ({
   default: () => <Navigate to="/" replace />
 })));
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <Header />
@@ -41,6 +41,6 @@ function App() {
       <Footer />
     </div>
   );
-}
+};
 
 export default App;
