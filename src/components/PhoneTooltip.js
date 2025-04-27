@@ -1,22 +1,43 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 
-function PhoneTooltip({ phoneNumber }) {
-  const [showTooltip, setShowTooltip] = useState(false);
+class PhoneTooltip extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showTooltip: false
+    };
+    
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+  }
   
-  return (
-    <span 
-      className="phone-link"
-      onMouseEnter={() => setShowTooltip(true)}
-      onMouseLeave={() => setShowTooltip(false)}
-    >
-      phone
-      {showTooltip && (
-        <div className="phone-tooltip">
-          {phoneNumber}
-        </div>
-      )}
-    </span>
-  );
+  handleMouseEnter() {
+    this.setState({ showTooltip: true });
+  }
+  
+  handleMouseLeave() {
+    this.setState({ showTooltip: false });
+  }
+  
+  render() {
+    const { phoneNumber } = this.props;
+    const { showTooltip } = this.state;
+    
+    return (
+      <span 
+        className="phone-link"
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+      >
+        phone
+        {showTooltip && (
+          <div className="phone-tooltip">
+            {phoneNumber}
+          </div>
+        )}
+      </span>
+    );
+  }
 }
 
 export default PhoneTooltip; 

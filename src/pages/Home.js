@@ -1,15 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-function Home() {
-  useEffect(() => {
+class Home extends Component {
+  componentDidMount() {
     document.title = "Home";
-  }, []);
-
-  return (
-    <div className="home-container">
-    </div>
-  );
+  }
+  
+  render() {
+    return (
+      <div className="home-container">
+      </div>
+    );
+  }
 }
 
 export default Home; 

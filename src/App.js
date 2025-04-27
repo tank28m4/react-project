@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Component, Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
@@ -15,32 +15,34 @@ const Login = lazy(() => import('./pages/Login').catch(() => ({
   default: () => <Navigate to="/" replace />
 })));
 
-function App() {
-  return (
-    <div className="App">
-      <Header />
-      <main className="app-content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/menu" element={<Menu />} />
-          
-          <Route path="/login" element={
-            <Suspense fallback={<div>Loading...</div>}>
-              <Login />
-            </Suspense>
-          } />
-          <Route path="/cart" element={
-            <Suspense fallback={<div>Loading...</div>}>
-              <Cart />
-            </Suspense>
-          } />
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Header />
+        <main className="app-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/menu" element={<Menu />} />
+            
+            <Route path="/login" element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <Login />
+              </Suspense>
+            } />
+            <Route path="/cart" element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <Cart />
+              </Suspense>
+            } />
 
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </main>
-      <Footer />
-    </div>
-  );
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 }
 
 export default App;
