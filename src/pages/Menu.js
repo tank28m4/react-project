@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import PhoneTooltip from '../components/PhoneTooltip';
+import useFetch from '../hooks/useFetch';
 import './Menu.css';
 
 import burgerDreams from '../assets/images/burger-dreams.png';
@@ -13,6 +14,7 @@ import burgerClassic from '../assets/images/burger-classic.png';
 
 const Menu = () => {
   const { addToCart } = useCart();
+  const { fetch: fetchWithLogger } = useFetch();
   const [loading, setLoading] = useState(true);
   const [meals, setMeals] = useState([]);
   const [visibleMeals, setVisibleMeals] = useState([]);
@@ -35,27 +37,27 @@ const Menu = () => {
     }
   }, [category, meals, currentPage, itemsPerPage]);
   
-  const fetchMeals = () => {
-    fetch('https://65de35f3dccfcd562f5691bb.mockapi.io/api/v1/meals')
-      .then(response => response.json())
-      .then(data => {
-        const newQuantities = {};
-        
-        data.forEach(meal => {
-          newQuantities[meal.id] = 1;
-        });
-        
-        setMeals(data);
-        const filteredMeals = data.filter(meal => meal.category === category);
-        setVisibleMeals(filteredMeals.slice(0, itemsPerPage));
-        setQuantities(newQuantities);
-        setLoading(false);
-        setHasMore(filteredMeals.length > itemsPerPage);
-      })
-      .catch(error => {
-        console.error('Error fetching meals:', error);
-        setLoading(false);
+  const fetchMeals = async () => {
+    try {
+      const response = await fetchWithLogger('https://65de35f3dccfcd562f5691bb.mockapi.io/api/v1/meals');
+      const data = response.data;
+      
+      const newQuantities = {};
+      
+      data.forEach(meal => {
+        newQuantities[meal.id] = 1;
       });
+      
+      setMeals(data);
+      const filteredMeals = data.filter(meal => meal.category === category);
+      setVisibleMeals(filteredMeals.slice(0, itemsPerPage));
+      setQuantities(newQuantities);
+      setLoading(false);
+      setHasMore(filteredMeals.length > itemsPerPage);
+    } catch (error) {
+      console.error('Error fetching meals:', error);
+      setLoading(false);
+    }
   };
 
   const loadMoreItems = (e) => {
