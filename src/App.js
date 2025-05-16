@@ -6,12 +6,9 @@ import Footer from './components/Footer';
 
 import Home from './pages/Home';
 import Menu from './pages/Menu';
+import Login from './pages/Login';
 
 const Cart = lazy(() => import('./pages/Cart').catch(() => ({ 
-  default: () => <Navigate to="/" replace />
-})));
-
-const Login = lazy(() => import('./pages/Login').catch(() => ({
   default: () => <Navigate to="/" replace />
 })));
 
@@ -23,12 +20,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/menu" element={<Menu />} />
+          <Route path="/login" element={<Login />} />
           
-          <Route path="/login" element={
-            <Suspense fallback={<div>Loading...</div>}>
-              <Login />
-            </Suspense>
-          } />
           <Route path="/cart" element={
             <Suspense fallback={<div>Loading...</div>}>
               <Cart />
