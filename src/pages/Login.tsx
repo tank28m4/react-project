@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent, ChangeEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import styled from 'styled-components';
@@ -32,7 +32,11 @@ const LoginContainer = styled.div`
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 `;
 
-const FormGroup = styled.div`
+interface FormGroupProps {
+  marginBottom?: string;
+}
+
+const FormGroup = styled.div<FormGroupProps>`
   margin-bottom: ${props => props.marginBottom || '20px'};
   display: flex;
   align-items: center;
@@ -82,13 +86,13 @@ const CancelButton = styled.button`
   cursor: pointer;
 `;
 
-function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+const Login: React.FC = () => {
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.title = "Login";
     
     if (!localStorage.getItem('users')) {
@@ -99,7 +103,7 @@ function Login() {
     }
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     
     const success = login(username, password);
@@ -112,7 +116,7 @@ function Login() {
     }
   };
 
-  const handleCancel = () => {
+  const handleCancel = (): void => {
     navigate('/');
   };
 
@@ -127,7 +131,7 @@ function Login() {
             <Input 
               type="text" 
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
               placeholder="UserName" 
             />
           </FormGroup>
@@ -137,7 +141,7 @@ function Login() {
             <Input 
               type="password" 
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
               placeholder="******************" 
             />
           </FormGroup>
@@ -155,6 +159,6 @@ function Login() {
       </LoginContainer>
     </LoginSection>
   );
-}
+};
 
-export default Login;
+export default Login; 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Footer = () => {
+const Footer: React.FC = () => {
   return (
     <div className="footer" style={{backgroundColor: '#f5f9fc'}}>
       <div className="container">

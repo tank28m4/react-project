@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEvent, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import PhoneTooltip from '../components/PhoneTooltip';
@@ -12,17 +12,31 @@ import burgerBaconBuddy from '../assets/images/burger-bacon-buddy.png';
 import burgerSpicy from '../assets/images/burger-spicy.png';
 import burgerClassic from '../assets/images/burger-classic.png';
 
-const Menu = () => {
+interface Meal {
+  id: string;
+  meal: string;
+  price: number;
+  category: string;
+  area: string;
+  img: string;
+  [key: string]: any;
+}
+
+interface Quantities {
+  [key: string]: number;
+}
+
+const Menu: React.FC = () => {
   const { addToCart } = useCart();
   const { fetch: fetchWithLogger } = useFetch();
-  const [loading, setLoading] = useState(true);
-  const [meals, setMeals] = useState([]);
-  const [visibleMeals, setVisibleMeals] = useState([]);
-  const [quantities, setQuantities] = useState({});
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(6);
-  const [hasMore, setHasMore] = useState(true);
-  const [category, setCategory] = useState('Dessert');
+  const [loading, setLoading] = useState<boolean>(true);
+  const [meals, setMeals] = useState<Meal[]>([]);
+  const [visibleMeals, setVisibleMeals] = useState<Meal[]>([]);
+  const [quantities, setQuantities] = useState<Quantities>({});
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage] = useState<number>(6);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [category, setCategory] = useState<string>('Dessert');
   
   useEffect(() => {
     document.title = "Menu";
@@ -37,12 +51,12 @@ const Menu = () => {
     }
   }, [category, meals, currentPage, itemsPerPage]);
   
-  const fetchMeals = async () => {
+  const fetchMeals = async (): Promise<void> => {
     try {
-      const response = await fetchWithLogger('https://65de35f3dccfcd562f5691bb.mockapi.io/api/v1/meals');
+      const response = await fetchWithLogger<Meal[]>('https://65de35f3dccfcd562f5691bb.mockapi.io/api/v1/meals');
       const data = response.data;
       
-      const newQuantities = {};
+      const newQuantities: Quantities = {};
       
       data.forEach(meal => {
         newQuantities[meal.id] = 1;
@@ -60,20 +74,20 @@ const Menu = () => {
     }
   };
 
-  const loadMoreItems = (e) => {
+  const loadMoreItems = (e: MouseEvent<HTMLAnchorElement>): void => {
     e.preventDefault();
     
     setCurrentPage(prevPage => prevPage + 1);
   };
   
-  const handleQuantityChange = (mealId, value) => {
+  const handleQuantityChange = (mealId: string, value: string): void => {
     setQuantities(prevQuantities => ({
       ...prevQuantities,
       [mealId]: parseInt(value, 10)
     }));
   };
   
-  const handleAddToCart = (e, meal) => {
+  const handleAddToCart = (e: FormEvent<HTMLFormElement>, meal: Meal): void => {
     e.preventDefault();
     const quantity = quantities[meal.id];
     
@@ -85,7 +99,7 @@ const Menu = () => {
     }));
   };
   
-  const handleCategoryClick = (e, newCategory) => {
+  const handleCategoryClick = (e: MouseEvent<HTMLAnchorElement>, newCategory: string): void => {
     e.preventDefault();
     setCategory(newCategory);
     setCurrentPage(1);
@@ -125,7 +139,7 @@ const Menu = () => {
                 data-w-tab="Dinner" 
                 onClick={(e) => handleCategoryClick(e, 'Dinner')} 
                 className={`tab-link-round w-inline-block w-tab-link ${category === 'Dinner' ? 'w--current' : ''}`} 
-                tabIndex="-1" 
+                tabIndex={-1} 
                 id="w-tabs-0-data-w-tab-1" 
                 href="#" 
                 role="tab" 
@@ -138,7 +152,7 @@ const Menu = () => {
                 data-w-tab="Breakfast" 
                 onClick={(e) => handleCategoryClick(e, 'Breakfast')} 
                 className={`tab-link-round w-inline-block w-tab-link ${category === 'Breakfast' ? 'w--current' : ''}`} 
-                tabIndex="-1" 
+                tabIndex={-1} 
                 id="w-tabs-0-data-w-tab-2" 
                 href="#" 
                 role="tab" 

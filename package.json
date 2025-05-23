@@ -20,7 +20,12 @@
     "test": "vitest"
   },
   "devDependencies": {
+    "@types/node": "^22.15.21",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
+    "@types/styled-components": "^5.1.34",
     "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.8.3",
     "vite": "^6.2.5"
   }
 }

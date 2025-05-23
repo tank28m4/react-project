@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { CartProvider } from './contexts/CartContext';
 import { AuthProvider } from './contexts/AuthContext';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
     <BrowserRouter>
@@ -17,4 +17,4 @@ root.render(
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
-);
+); 

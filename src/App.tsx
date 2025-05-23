@@ -12,7 +12,7 @@ const Cart = lazy(() => import('./pages/Cart').catch(() => ({
   default: () => <Navigate to="/" replace />
 })));
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <div className="App">
       <Header />
@@ -36,4 +36,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default App; 

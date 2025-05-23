@@ -5,20 +5,20 @@ import { useAuth } from '../contexts/AuthContext';
 import cartIconSvg from '../assets/icons/cart-icon.svg';
 import logoSvg from '../assets/icons/logo.svg';
 
-const Header = () => {
+const Header: React.FC = () => {
   const { cartCount } = useCart();
   const { isLoggedIn, logout } = useAuth();
   
-  const handleCompanyClick = (e) => {
+  const handleCompanyClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
     e.preventDefault();
   };
 
-  const handleLogout = (e) => {
+  const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>): void => {
     e.preventDefault();
     logout();
   };
 
-  const cartIconStyle = {
+  const cartIconStyle: React.CSSProperties = {
     color: '#35B8BE',
     width: '17px',
     height: '17px'
