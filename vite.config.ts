@@ -9,7 +9,7 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
-    extensions: ['.js', '.jsx', '.json']
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
   },
   server: {
     port: 5174,
@@ -20,14 +20,16 @@ export default defineConfig({
     sourcemap: true
   },
   esbuild: {
-    loader: 'jsx',
-    include: /\.jsx?$/,
-    exclude: [],
+    jsx: 'automatic',
+    include: /\.([jt]sx?)$/,
+    exclude: []
   },
   optimizeDeps: {
     esbuildOptions: {
       loader: {
         '.js': 'jsx',
+        '.ts': 'ts',
+        '.tsx': 'tsx'
       }
     }
   }

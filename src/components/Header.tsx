@@ -1,17 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
+import { useAuth } from '../contexts/AuthContext';
 import cartIconSvg from '../assets/icons/cart-icon.svg';
 import logoSvg from '../assets/icons/logo.svg';
 
-const Header = () => {
+const Header: React.FC = () => {
   const { cartCount } = useCart();
+  const { isLoggedIn, logout } = useAuth();
   
-  const handleCompanyClick = (e) => {
+  const handleCompanyClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
     e.preventDefault();
   };
 
-  const cartIconStyle = {
+  const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>): void => {
+    e.preventDefault();
+    logout();
+  };
+
+  const cartIconStyle: React.CSSProperties = {
     color: '#35B8BE',
     width: '17px',
     height: '17px'
@@ -50,12 +57,18 @@ const Header = () => {
               <a href="#" onClick={handleCompanyClick} className="nav-link w-nav-link">
                 Company
               </a>
-              <Link to="/" className="nav-link w-nav-link">
-                Login
-              </Link>
+              {isLoggedIn ? (
+                <a href="#" onClick={handleLogout} className="nav-link w-nav-link">
+                  Logout
+                </a>
+              ) : (
+                <Link to="/login" className="nav-link w-nav-link">
+                  Login
+                </Link>
+              )}
             </nav>
             <div className="w-commerce-commercecartwrapper">
-              <Link to="/" className="w-commerce-commercecartopenlink cart-button w-inline-block">
+              <Link to="/cart" className="w-commerce-commercecartopenlink cart-button w-inline-block">
                 <img 
                   src={cartIconSvg} 
                   className="w-commerce-commercecartopenlinkicon cart-icon" 
