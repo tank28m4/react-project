@@ -74,7 +74,7 @@ const HeroImage = styled.img`
   class-name: "hero-image";
 `;
 
-const Home = () => {
+const Home: React.FC = () => {
   useEffect(() => {
     document.title = "Delivery";
   }, []);

@@ -1,17 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useCart } from '../contexts/CartContext';
+import { useAppSelector, useAppDispatch } from '../store/hooks';
+import { selectCartCount } from '../store/slices/cartSlice';
+import { selectIsAuthenticated, logout } from '../store/slices/authSlice';
 import cartIconSvg from '../assets/icons/cart-icon.svg';
 import logoSvg from '../assets/icons/logo.svg';
 
-const Header = () => {
-  const { cartCount } = useCart();
+const Header: React.FC = () => {
+  const cartCount = useAppSelector(selectCartCount);
+  const isLoggedIn = useAppSelector(selectIsAuthenticated);
+  const dispatch = useAppDispatch();
   
-  const handleCompanyClick = (e) => {
+  const handleCompanyClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
     e.preventDefault();
   };
 
-  const cartIconStyle = {
+  const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>): void => {
+    e.preventDefault();
+    dispatch(logout());
+  };
+
+  const cartIconStyle: React.CSSProperties = {
     color: '#35B8BE',
     width: '17px',
     height: '17px'
@@ -50,12 +59,18 @@ const Header = () => {
               <a href="#" onClick={handleCompanyClick} className="nav-link w-nav-link">
                 Company
               </a>
-              <Link to="/" className="nav-link w-nav-link">
-                Login
-              </Link>
+              {isLoggedIn ? (
+                <a href="#" onClick={handleLogout} className="nav-link w-nav-link">
+                  Logout
+                </a>
+              ) : (
+                <Link to="/login" className="nav-link w-nav-link">
+                  Login
+                </Link>
+              )}
             </nav>
             <div className="w-commerce-commercecartwrapper">
-              <Link to="/" className="w-commerce-commercecartopenlink cart-button w-inline-block">
+              <Link to="/cart" className="w-commerce-commercecartopenlink cart-button w-inline-block">
                 <img 
                   src={cartIconSvg} 
                   className="w-commerce-commercecartopenlinkicon cart-icon" 
