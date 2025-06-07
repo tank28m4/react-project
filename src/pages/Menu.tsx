@@ -1,6 +1,7 @@
 import React, { useState, useEffect, FormEvent, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { useCart } from '../contexts/CartContext';
+import { useAppDispatch } from '../store/hooks';
+import { addToCart } from '../store/slices/cartSlice';
 import PhoneTooltip from '../components/PhoneTooltip';
 import useFetch from '../hooks/useFetch';
 import './Menu.css';
@@ -27,7 +28,7 @@ interface Quantities {
 }
 
 const Menu: React.FC = () => {
-  const { addToCart } = useCart();
+  const dispatch = useAppDispatch();
   const { fetch: fetchWithLogger } = useFetch();
   const [loading, setLoading] = useState<boolean>(true);
   const [meals, setMeals] = useState<Meal[]>([]);
@@ -91,7 +92,7 @@ const Menu: React.FC = () => {
     e.preventDefault();
     const quantity = quantities[meal.id];
     
-    addToCart(meal, quantity);
+    dispatch(addToCart({ product: meal, quantity }));
     
     setQuantities(prevQuantities => ({
       ...prevQuantities,

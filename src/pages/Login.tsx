@@ -1,6 +1,7 @@
 import React, { useState, FormEvent, ChangeEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAppDispatch } from '../store/hooks';
+import { loginSuccess, loginFailed } from '../store/slices/authSlice';
 import styled from 'styled-components';
 
 const LoginSection = styled.div`
@@ -90,7 +91,7 @@ const Login: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     document.title = "Login";
@@ -106,12 +107,19 @@ const Login: React.FC = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     
-    const success = login(username, password);
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const user = users.find((u: any) => u.username === username && u.password === password);
     
-    if (success) {
+    if (user) {
+      dispatch(loginSuccess({
+        id: '1',
+        username: user.username,
+        email: `${user.username}@example.com`
+      }));
       alert('Login successful!');
       navigate('/');
     } else {
+      dispatch(loginFailed('Invalid username or password'));
       alert('Invalid username or password');
     }
   };

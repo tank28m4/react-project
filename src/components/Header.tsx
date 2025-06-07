@@ -1,13 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useCart } from '../contexts/CartContext';
-import { useAuth } from '../contexts/AuthContext';
+import { useAppSelector, useAppDispatch } from '../store/hooks';
+import { selectCartCount } from '../store/slices/cartSlice';
+import { selectIsAuthenticated, logout } from '../store/slices/authSlice';
 import cartIconSvg from '../assets/icons/cart-icon.svg';
 import logoSvg from '../assets/icons/logo.svg';
 
 const Header: React.FC = () => {
-  const { cartCount } = useCart();
-  const { isLoggedIn, logout } = useAuth();
+  const cartCount = useAppSelector(selectCartCount);
+  const isLoggedIn = useAppSelector(selectIsAuthenticated);
+  const dispatch = useAppDispatch();
   
   const handleCompanyClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
     e.preventDefault();
@@ -15,7 +17,7 @@ const Header: React.FC = () => {
 
   const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>): void => {
     e.preventDefault();
-    logout();
+    dispatch(logout());
   };
 
   const cartIconStyle: React.CSSProperties = {
