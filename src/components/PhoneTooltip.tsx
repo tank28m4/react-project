@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 
-const PhoneTooltip = ({ phoneNumber }) => {
-  const [showTooltip, setShowTooltip] = useState(false);
+interface PhoneTooltipProps {
+  phoneNumber: string;
+}
+
+const PhoneTooltip: React.FC<PhoneTooltipProps> = ({ phoneNumber }) => {
+  const [showTooltip, setShowTooltip] = useState<boolean>(false);
   
-  const handleMouseEnter = () => {
+  const handleMouseEnter = (): void => {
     setShowTooltip(true);
   };
   
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (): void => {
     setShowTooltip(false);
   };
   
