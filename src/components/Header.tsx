@@ -60,9 +60,11 @@ const Header: React.FC = () => {
                 Company
               </a>
               {isLoggedIn ? (
-                <a href="#" onClick={handleLogout} className="nav-link w-nav-link">
-                  Logout
-                </a>
+                <>
+                  <a href="#" onClick={handleLogout} className="nav-link w-nav-link">
+                    Logout
+                  </a>
+                </>
               ) : (
                 <Link to="/login" className="nav-link w-nav-link">
                   Login

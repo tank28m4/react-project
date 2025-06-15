@@ -3,14 +3,12 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import PrivateRoute from './components/PrivateRoute';
 
 import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Login from './pages/Login';
-
-const Cart = lazy(() => import('./pages/Cart').catch(() => ({ 
-  default: () => <Navigate to="/" replace />
-})));
+import Cart from './pages/Cart';
 
 const App: React.FC = () => {
   return (
@@ -23,9 +21,9 @@ const App: React.FC = () => {
           <Route path="/login" element={<Login />} />
           
           <Route path="/cart" element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <PrivateRoute>
               <Cart />
-            </Suspense>
+            </PrivateRoute>
           } />
 
           <Route path="*" element={<Navigate to="/" replace />} />
