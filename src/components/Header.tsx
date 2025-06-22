@@ -5,6 +5,7 @@ import { selectCartCount } from '../store/slices/cartSlice';
 import { selectIsAuthenticated, logout } from '../store/slices/authSlice';
 import cartIconSvg from '../assets/icons/cart-icon.svg';
 import logoSvg from '../assets/icons/logo.svg';
+import ThemeToggle from './ThemeToggle';
 
 const Header: React.FC = () => {
   const cartCount = useAppSelector(selectCartCount);
@@ -71,6 +72,7 @@ const Header: React.FC = () => {
                 </Link>
               )}
             </nav>
+            <ThemeToggle />
             <div className="w-commerce-commercecartwrapper">
               <Link to="/cart" className="w-commerce-commercecartopenlink cart-button w-inline-block">
                 <img 

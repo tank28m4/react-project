@@ -5,7 +5,7 @@ import { loginSuccess, loginFailed } from '../store/slices/authSlice';
 import styled from 'styled-components';
 
 const LoginSection = styled.div`
-  background-color: #f5f9fc;
+  background-color: var(--background-color);
   padding: 80px 20px;
   min-height: calc(100vh - 200px);
   display: flex;
@@ -16,7 +16,7 @@ const LoginSection = styled.div`
 
 const LoginTitle = styled.h1`
   font-family: Inter, sans-serif;
-  color: #35B8BE;
+  color: var(--text-color);
   font-size: 48px;
   font-weight: 400;
   margin-bottom: 30px;
@@ -28,7 +28,7 @@ const LoginContainer = styled.div`
   width: 100%;
   margin: 0 auto;
   padding: 40px;
-  background-color: white;
+  background-color: var(--card-background);
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 `;
@@ -48,14 +48,17 @@ const Label = styled.label`
   font-weight: 500;
   font-size: 16px;
   margin-right: 15px;
+  color: var(--text-color);
 `;
 
 const Input = styled.input`
   flex: 1;
   padding: 12px 15px;
   border-radius: 4px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   font-size: 16px;
+  background-color: var(--background-color);
+  color: var(--text-color);
 `;
 
 const ButtonContainer = styled.div`
@@ -69,8 +72,8 @@ const SubmitButton = styled.button`
   padding: 12px 30px;
   border-radius: 4px;
   border: none;
-  background: #35B8BE;
-  color: white;
+  background: var(--button-color);
+  color: var(--button-text);
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
@@ -79,9 +82,9 @@ const SubmitButton = styled.button`
 const CancelButton = styled.button`
   padding: 12px 30px;
   border-radius: 4px;
-  border: 1px solid #ddd;
-  background: white;
-  color: #333;
+  border: 1px solid var(--border-color);
+  background: var(--card-background);
+  color: var(--text-color);
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;

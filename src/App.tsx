@@ -4,6 +4,7 @@ import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 import Home from './pages/Home';
 import Menu from './pages/Menu';
@@ -12,25 +13,27 @@ import Cart from './pages/Cart';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <Header />
-      <main className="app-content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/menu" element={<Menu />} />
-          <Route path="/login" element={<Login />} />
-          
-          <Route path="/cart" element={
-            <PrivateRoute>
-              <Cart />
-            </PrivateRoute>
-          } />
+    <ThemeProvider>
+      <div className="App">
+        <Header />
+        <main className="app-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/menu" element={<Menu />} />
+            <Route path="/login" element={<Login />} />
+            
+            <Route path="/cart" element={
+              <PrivateRoute>
+                <Cart />
+              </PrivateRoute>
+            } />
 
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </main>
-      <Footer />
-    </div>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 };
 

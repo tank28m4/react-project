@@ -12,7 +12,7 @@ interface Address {
 }
 
 const CartSection = styled.div`
-  background-color: #f5f9fc;
+  background-color: var(--background-color);
   padding: 50px 0;
   min-height: calc(100vh - 200px);
 `;
@@ -25,7 +25,7 @@ const CartContainer = styled.div`
 
 const CartTitle = styled.h1`
   font-family: Inter, sans-serif;
-  color: #35B8BE;
+  color: var(--text-color);
   font-size: 48px;
   font-weight: 400;
   margin-bottom: 30px;
@@ -33,7 +33,7 @@ const CartTitle = styled.h1`
 `;
 
 const CartItem = styled.div`
-  background-color: white;
+  background-color: var(--card-background);
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 20px;
@@ -62,7 +62,7 @@ const ItemTitle = styled.h3`
   margin: 0 0 5px 0;
   font-size: 18px;
   font-weight: 500;
-  color: #333;
+  color: var(--text-color);
 `;
 
 const ItemRightSection = styled.div`
@@ -71,7 +71,7 @@ const ItemRightSection = styled.div`
 `;
 
 const ItemPrice = styled.div`
-  color: #35B8BE;
+  color: var(--button-color);
   font-weight: 500;
   margin-right: 20px;
 `;
@@ -79,14 +79,16 @@ const ItemPrice = styled.div`
 const QuantityInput = styled.input`
   width: 50px;
   padding: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
   margin-right: 15px;
   text-align: center;
+  background-color: var(--background-color);
+  color: var(--text-color);
 `;
 
 const RemoveButton = styled.button`
-  background-color: #35B8BE;
+  background-color: var(--button-color);
   color: white;
   border: none;
   border-radius: 4px;
@@ -109,15 +111,17 @@ const FormGroup = styled.div`
 const FormLabel = styled.label`
   width: 100px;
   font-weight: 500;
-  color: #333;
+  color: var(--text-color);
 `;
 
 const FormInput = styled.input`
   flex: 1;
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: 16px;
+  background-color: var(--background-color);
+  color: var(--text-color);
 `;
 
 const ButtonContainer = styled.div`
@@ -126,7 +130,7 @@ const ButtonContainer = styled.div`
 `;
 
 const OrderButton = styled.button`
-  background-color: #35B8BE;
+  background-color: var(--button-color);
   color: white;
   border: none;
   border-radius: 4px;
@@ -139,12 +143,12 @@ const OrderButton = styled.button`
 const EmptyCartMessage = styled.div`
   text-align: center;
   padding: 50px 0;
-  color: #666;
+  color: var(--text-color);
   font-size: 18px;
 `;
 
 const GoToMenuButton = styled.button`
-  background-color: #35B8BE;
+  background-color: var(--button-color);
   color: white;
   border: none;
   border-radius: 4px;
