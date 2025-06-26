@@ -6,6 +6,7 @@ import mainImage from '../assets/images/main.png';
 const HeaderSection = styled.div`
   id: "Header";
   class-name: "header";
+  background-color: var(--background-color);
 `;
 
 const ContainerFlex = styled.div`
@@ -22,10 +23,12 @@ const HeroH1 = styled.h1`
   transform-style: preserve-3d;
   class-name: "hero-h1";
   font-weight: normal;
+  color: var(--text-color);
 `;
 
 const BrandSpan = styled.span`
   class-name: "brand-span";
+  color: var(--button-color);
 `;
 
 const HeroParagraph = styled.p`
@@ -33,6 +36,7 @@ const HeroParagraph = styled.p`
   opacity: 1;
   transform-style: preserve-3d;
   class-name: "hero-paragraph";
+  color: var(--text-color);
 `;
 
 const ButtonWrapper = styled.div`
@@ -46,6 +50,8 @@ const Button = styled.button`
   class-name: "button w-button";
   cursor: default;
   opacity: 0.8;
+  background-color: var(--button-color);
+  color: var(--button-text);
 `;
 
 const ReviewWrap = styled.div`
@@ -61,10 +67,12 @@ const ReviewLogo = styled.img`
 
 const ReviewText = styled.div`
   class-name: "review-text";
+  color: var(--text-color);
 `;
 
 const HeroImageWrap = styled.div`
   class-name: "hero-image-wrap";
+  background-color: var(--background-color);
 `;
 
 const HeroImage = styled.img`
@@ -74,7 +82,7 @@ const HeroImage = styled.img`
   class-name: "hero-image";
 `;
 
-const Home = () => {
+const Home: React.FC = () => {
   useEffect(() => {
     document.title = "Delivery";
   }, []);
