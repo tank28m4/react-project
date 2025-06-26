@@ -249,10 +249,11 @@ const Cart: React.FC = () => {
 
             <AddressForm>
               <FormGroup>
-                <FormLabel>
+                <FormLabel htmlFor="street-input">
                   Street
                 </FormLabel>
                 <FormInput 
+                  id="street-input"
                   type="text" 
                   name="street" 
                   value={address.street} 
@@ -261,10 +262,11 @@ const Cart: React.FC = () => {
               </FormGroup>
 
               <FormGroup>
-                <FormLabel>
+                <FormLabel htmlFor="house-input">
                   House
                 </FormLabel>
                 <FormInput 
+                  id="house-input"
                   type="text" 
                   name="house" 
                   value={address.house}
